@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -10,12 +12,31 @@ const scrapeACAPSWebsite = async () => {
 const extractLatestURL = async () => {
   const $ = await scrapeACAPSWebsite();
   const latestURL = $('.field-item > .file > a').attr('href');
-  console.log(latestURL);
+  return latestURL;
 };
+
+const SOURCE_PATH = path.resolve(__dirname, 'data/latest.xlsx');
+async function downloadLatestXLSX() {
+  const xlsx_path_latest = await extractLatestURL();
+  const writer = fs.createWriteStream(SOURCE_PATH);
+
+  const response = await axios({
+    url: xlsx_path_latest,
+    method: 'GET',
+    responseType: 'stream',
+  });
+
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
+}
 
 const run = async () => {
   try {
-    await extractLatestURL();
+    await downloadLatestXLSX();
   } catch (err) {
     throw err;
   }
