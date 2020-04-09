@@ -46,7 +46,9 @@ const ExcelDateToJSDate = (date) =>
 const parseXLSX = async () => {
   // amazingly, there is a (presumably) hidden "Lists"
   // sheet in our Excel file, so "Database" is index [2], not [1]
-  const parsedExcel = xlsx.parse(SOURCE_PATH)[2].data;
+  const parsedExcel = xlsx
+    .parse(SOURCE_PATH)
+    .filter((e) => e.name === 'Database')[0].data;
 
   const simplified = parsedExcel
     .map((e) => {
