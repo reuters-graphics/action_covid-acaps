@@ -55,13 +55,14 @@ const parseXLSX = async () => {
       return {
         countryName: e[1],
         countryISO: e[2],
-        category: e[6],
-        measures: e[7],
-        comment: e[9],
-        date: ExcelDateToJSDate(e[11]),
-        datestring: moment(ExcelDateToJSDate(e[11])).format('DD/MM/YYYY'),
-        source: e[12],
-        source_type: e[13],
+        log_type: e[6],
+        category: e[7],
+        measures: e[8],
+        comment: e[10],
+        date: ExcelDateToJSDate(e[12]),
+        datestring: moment(ExcelDateToJSDate(e[12])).format('DD/MM/YYYY'),
+        source: e[13],
+        source_type: e[14],
       };
     })
     .filter((e) => e.countryName !== 'COUNTRY');
@@ -89,6 +90,7 @@ const parseXLSX = async () => {
       const match = countryData.find((d) => d.datestring === e);
       if (match) {
         return {
+          log_type: match.log_type,
           category: match.category,
           measures: match.measures,
           comment: match.comment,
