@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "d3-collection": "^1.0.7",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-xlsx": "^0.15.0"
   }
 }
